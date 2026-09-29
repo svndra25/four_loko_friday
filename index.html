@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Four Loko Friday </title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #fff0f7, #f4e8ff, #fff4df);
+      color: #4a3b45;
+      overflow-x: hidden
+    }
+
+    .float {
+      position: fixed;
+      font-size: 30px;
+      animation: float 7s ease-in-out infinite;
+      opacity: .65;
+      pointer-events: none;
+      z-index: 0
+    }
+
+    .f1 {
+      left: 7%;
+      top: 12%
+    }
+
+    .f2 {
+      right: 8%;
+      top: 25%;
+      animation-delay: 1.5s
+    }
+
+    .f3 {
+      left: 10%;
+      bottom: 12%;
+      animation-delay: 3s
+    }
+
+    .f4 {
+      right: 12%;
+      bottom: 18%;
+      animation-delay: 4.5s
+    }
+
+    @keyframes float {
+      50% {
+        transform: translateY(-22px) rotate(8deg)
+      }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 92%;
+      max-width: 650px;
+      margin: 28px auto;
+      padding: 28px 20px;
+      background: rgba(255, 255, 255, .93);
+      border-radius: 30px;
+      box-shadow: 0 18px 50px rgba(100, 70, 100, .16);
+      text-align: center
+    }
+
+    .kicker {
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #a66c93
+    }
+
+    h1 {
+      font-size: 42px;
+      line-height: 1.05;
+      margin: 8px 0;
+      color: #c84f8c
+    }
+
+    .subtitle {
+      font-size: 19px;
+      margin-bottom: 22px
+    }
+
+    .card {
+      background: #fff5fa;
+      border-radius: 22px;
+      padding: 20px;
+      margin: 16px 0
+    }
+
+    .details {
+      font-size: 17px;
+      line-height: 1.8
+    }
+
+    h2 {
+      color: #a95082;
+      margin-top: 0
+    }
+
+    .expectations {
+      text-align: left;
+      line-height: 1.65
+    }
+
+    .expectations li {
+      margin: 9px 0
+    }
+
+    .note {
+      font-size: 13px;
+      color: #826c79;
+      margin-top: 10px
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      font-weight: bold;
+      margin: 13px 0 6px
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 2px solid #efd8e4;
+      border-radius: 14px;
+      padding: 12px;
+      font: inherit;
+      background: #fff
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical
+    }
+
+    .question {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 6px 0 12px
+    }
+
+    .choice-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 20px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 16px #00000018
+    }
+
+    .yes {
+      background: #e889ad;
+      color: white
+    }
+
+    .no {
+      background: #ddd4dc;
+      color: #514750
+    }
+
+    .exyes {
+      background: #b77ad6;
+      color: white
+    }
+
+    .exno {
+      background: #d8d0d7;
+      color: #514750
+    }
+
+    .submit {
+      width: 100%;
+      background: #c84f8c;
+      color: #fff;
+      font-size: 17px;
+      margin-top: 14px
+    }
+
+    button.selected {
+      outline: 3px solid #7b3e68;
+      outline-offset: 2px
+    }
+
+    #status {
+      display: none;
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 15px;
+      font-weight: bold
+    }
+
+    .success {
+      background: #eaf8ef;
+      color: #39704b
+    }
+
+    .error {
+      background: #fff0f0;
+      color: #9a4141
+    }
+
+    .footer {
+      margin-top: 25px;
+      color: #9b7a8e;
+      font-size: 13px
+    }
+
+    h1 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    h5 img {
+      width: 100px;
+      height: auto;
+    }
+
+    h1 img {
+      width: 70px;
+      height: auto;
+    }
+
+    @media(max-width:500px) {
+      h1 {
+        font-size: 34px
+      }
+
+      .container {
+        padding: 24px 16px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="float f1">
+    <h1> <img src="four-loko-can.png" alt="Four Loko can"> </h1>
+  </div>
+  <div class="float f2">
+    <h5> <img src="blue-four-loko.png" alt="Four Loko can"> </h5>
+  </div>
+  <div class="float f3">
+    <h5> <img src="blue-four-loko.png" alt="Four Loko can"> </h5>
+  </div>
+  <div class="float f4">
+    <h1> <img src="four-loko-can.png" alt="Four Loko can"> </h1>
+  </div>
+
+  <main class="container">
+    <div class="kicker">The besties are invited to...</div>
+    <h1> <img src="four-loko-can.png" alt="Four Loko can"> Four Loko Friday <img src="four-loko-can.png"
+        alt="Four Loko can"> </h1>
+    <div class="subtitle">hosted by Sandy :)</div>
+
+    <div class="card details">
+      📅 <b>October 2, 2026</b><br>
+      🕠 <b>Approx. 5:30 PM – 10:00 PM</b><br>
+      💻 <b>Your PC</b>
+    </div>
+
+    <div class="card">
+      <h2> What doi?</h2>
+      <p> Fidel, Lexa, Sandy drinky and playtime. </p>
+    </div>
+
+    <div class="card expectations">
+      <h2>📜 Official Expectations</h2>
+      <ol>
+        <li>Participants should buy at least one Four Loko.</li>
+        <li>Participant should be available by approximately 6pm through approximately 10pm.</li>
+        <li>There must be a 30 minute–1 hour intermission for rinner time 🍽️.</li>
+        <li>Everyone should be happy at the time of Four Loko Friday. </li>
+        <li>Everibody must be tipsy/slightly drunk at some point in the night.</li>
+        <li>All participants must love each other and have a lot of fun. </li>
+      </ol>
+      <div class="note"> drink responsibly, and don't drive after drinking.</div>
+    </div>
+
+    <form id="rsvpForm" class="card">
+      <h1> <img src="congrats.png" alt="Four Loko can"> RSVP</h1>
+
+      <label for="name">What's your name?</label>
+      <input id="name" maxlength="80" required placeholder="Your name">
+
+      <div class="question">Are you coming? :0 </div>
+      <div class="choice-row">
+        <button type="button" class="yes" data-group="attendance" data-value="YES"> YES, I'M COMIII</button>
+        <button type="button" class="no" data-group="attendance" data-value="NO">NAH </button>
+      </div>
+
+      <div class="question" style="margin-top:22px">Are you excited for Four Loko Friday?</div>
+      <div class="choice-row">
+        <button type="button" class="exyes" data-group="excited" data-value="YES"> YA</button>
+        <button type="button" class="exno" data-group="excited" data-value="NO">😐 Nah really.</button>
+      </div>
+
+      <label for="comment">Leave a comment for Sandy (i can read this btw :/ )</label>
+      <textarea id="comment" maxlength="1000" placeholder="Anything you want to say..."></textarea>
+
+      <button class="submit" type="submit"> SEND MY RSVP :D</button>
+      <div id="status"></div>
+    </form>
+
+    <div class="footer">made with some amount of love 💗<br>Sandy's Four Loko Friday™</div>
+  </main>
+
+  <script>
+    const SUPABASE_URL = "https://qiicsxewfutrxybecyun.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_sdv_o6XDho4QRort43bb3w_OK_v_8Jj";
+    const supabaseConfigured = !SUPABASE_URL.includes("PASTE_") && !SUPABASE_KEY.includes("PASTE_");
+    const db = supabaseConfigured ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+
+    const answers = {attendance: null, excited: null};
+
+    document.querySelectorAll("button[data-group]").forEach(button => {
+      button.addEventListener("click", () => {
+        const group = button.dataset.group;
+        answers[group] = button.dataset.value;
+        document.querySelectorAll(`button[data-group="${group}"]`).forEach(b => b.classList.remove("selected"));
+        button.classList.add("selected");
+      });
+    });
+
+    function status(message, ok = false) {
+      const el = document.getElementById("status");
+      el.textContent = message;
+      el.className = ok ? "success" : "error";
+      el.style.display = "block";
+      el.scrollIntoView({behavior: "smooth", block: "center"});
+    }
+
+    document.getElementById("rsvpForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const comment = document.getElementById("comment").value.trim();
+
+      if (!name) return status("Please enter your name 💗");
+      if (!answers.attendance) return status("Please choose whether you're coming!");
+      if (!answers.excited) return status("Please answer whether you're excited!");
+
+      if (!supabaseConfigured) {
+        return status("The RSVP database isn't connected yet. Add your Supabase URL and publishable key to this file first.");
+      }
+
+      const {error} = await db.from("rsvps").insert({
+        name,
+        attendance: answers.attendance,
+        excited: answers.excited,
+        comment: comment || null
+      });
+
+      if (error) {
+        console.error(error);
+        return status("Oops! The RSVP didn't send. Please try again.");
+      }
+
+      status(
+        answers.attendance === "YES"
+          ? "hell yeah brother."
+          : "ight.",
+        true
+      );
+
+      document.getElementById("rsvpForm").reset();
+      answers.attendance = null;
+      answers.excited = null;
+      document.querySelectorAll("button[data-group]").forEach(b => b.classList.remove("selected"));
+    });
+  </script>
+</body>
+
+</html>
